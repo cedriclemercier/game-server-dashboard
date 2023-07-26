@@ -9,5 +9,5 @@ boto3
 # mysqlclient
 
 # Tooling
-django-dynamic-datatb==1.0.25
-django-api-generator==1.0.17
+# django-dynamic-datatb==1.0.25
+# django-api-generator==1.0.17
