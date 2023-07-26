@@ -20,11 +20,13 @@
                             <!-- <p>Hello! Welcome to {{server.name}} server</p> -->
                             {%if server.status %}
                             <p>Join now! <strong>52.221.52.40</strong></p>
+                            <img src="{% static '/assets/images/terraria_screen.jpg' %}" alt="Responsive image" alt="anytime" width="300px">
                             {%endif%}
-
+                            
                             {%if server.status_name == 'Stopping' %}
                             <p>Refresh to refresh status</p>
                             {%endif%}
+                            
                         </div>
                         <div class="col-md-6 text-right">
                             <br/>
