@@ -33,7 +33,7 @@ if not SECRET_KEY:
 DEBUG = 'RENDER' not in os.environ
 
 # HOSTs List
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # Add here your deployment HOSTS
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://localhost:5085', 'http://127.0.0.1:8000', 'http://127.0.0.1:5085', '*.vercel.app']
@@ -85,7 +85,7 @@ HOME_TEMPLATES      = os.path.join(BASE_DIR, 'home/templates')
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [HOME_TEMPLATES, TEMPLATE_DIR_DATATB],                  # <-- UPD: Dynamic_DT
+        "DIRS": [HOME_TEMPLATES],                  # <-- UPD: Dynamic_DT
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -171,7 +171,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(DYN_DB_PKG_ROOT, "templates/static"),                # <-- NEW: Dynamic_DT 
+    # os.path.join(DYN_DB_PKG_ROOT, "templates/static"),                # <-- NEW: Dynamic_DT 
 )
 
 #if not DEBUG:
