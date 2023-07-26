@@ -1,19 +1,19 @@
-from rest_framework import serializers
+# from rest_framework import serializers
 
 
-try:
+# try:
 
-    from home.models import Product
+#     from home.models import Product
 
-except:
-    pass 
+# except:
+#     pass 
 
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
+# class ProductSerializer(serializers.ModelSerializer):
+#     class Meta:
 
-        try:
-            model = Product
-        except:
-            pass    
-        fields = '__all__'
+#         try:
+#             model = Product
+#         except:
+#             pass    
+#         fields = '__all__'
 

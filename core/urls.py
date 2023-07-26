@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework.authtoken.views import obtain_auth_token # <-- NEW
+# from rest_framework.authtoken.views import obtain_auth_token # <-- NEW
 
 urlpatterns = [
     path('', include('home.urls')),
@@ -26,8 +26,8 @@ urlpatterns = [
 
 # Lazy-load on routing is needed
 # During the first build, API is not yet generated
-try:
-    urlpatterns.append( path("api/"      , include("api.urls"))    )
-    urlpatterns.append( path("login/jwt/", view=obtain_auth_token) )
-except:
-    pass
+# try:
+#     urlpatterns.append( path("api/"      , include("api.urls"))    )
+#     urlpatterns.append( path("login/jwt/", view=obtain_auth_token) )
+# except:
+#     pass

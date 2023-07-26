@@ -62,8 +62,8 @@ INSTALLED_APPS = [
 
     # Tooling API-GEN
     # 'django_api_gen',            # Django API GENERATOR  # <-- NEW
-    'rest_framework',            # Include DRF           # <-- NEW 
-    'rest_framework.authtoken',  # Include DRF Auth      # <-- NEW     
+    # 'rest_framework',            # Include DRF           # <-- NEW 
+    # 'rest_framework.authtoken',  # Include DRF Auth      # <-- NEW     
 ]
 
 MIDDLEWARE = [
@@ -198,10 +198,10 @@ API_GENERATOR = {
     'product'  : "home.models.Product",
 }
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.TokenAuthentication',
+#     ],
+# }
 ########################################
