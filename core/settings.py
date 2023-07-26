@@ -14,7 +14,7 @@ import os, random, string, inspect
 from pathlib import Path
 from dotenv import load_dotenv
 
-import django_dyn_dt
+# import django_dyn_dt
 
 load_dotenv()  # take environment variables from .env.
 
@@ -58,10 +58,10 @@ INSTALLED_APPS = [
     "home",
 
     # Tooling Dynamic_DT
-    'django_dyn_dt',             # <-- NEW: Dynamic_DT
+    # 'django_dyn_dt',             # <-- NEW: Dynamic_DT
 
     # Tooling API-GEN
-    'django_api_gen',            # Django API GENERATOR  # <-- NEW
+    # 'django_api_gen',            # Django API GENERATOR  # <-- NEW
     'rest_framework',            # Include DRF           # <-- NEW 
     'rest_framework.authtoken',  # Include DRF Auth      # <-- NEW     
 ]
@@ -80,7 +80,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = "core.urls"
 
 HOME_TEMPLATES      = os.path.join(BASE_DIR, 'home/templates') 
-TEMPLATE_DIR_DATATB = os.path.join(BASE_DIR, "django_dyn_dt/templates") # <-- NEW: Dynamic_DT
+# TEMPLATE_DIR_DATATB = os.path.join(BASE_DIR, "django_dyn_dt/templates") # <-- NEW: Dynamic_DT
 
 TEMPLATES = [
     {
@@ -167,7 +167,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-DYN_DB_PKG_ROOT = os.path.dirname( inspect.getfile( django_dyn_dt ) ) # <-- NEW: Dynamic_DT
+# DYN_DB_PKG_ROOT = os.path.dirname( inspect.getfile( django_dyn_dt ) ) # <-- NEW: Dynamic_DT
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
