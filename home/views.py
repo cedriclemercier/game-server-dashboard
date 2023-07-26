@@ -11,8 +11,8 @@ from .forms import ServerForm
 
 import boto3, os
 
-aws_access_key = os.environ.get('AWS_ACCESS_KEY')
-aws_secret_key = os.environ.get('AWS_SECRET_KEY')
+aws_access_key = os.environ.get('AWS_ACCESSKEY')
+aws_secret_key = os.environ.get('AWS_SECRETKEY')
 aws_region = 'ap-southeast-1'  # Replace this with your desired AWS region
 
 session = boto3.Session(
