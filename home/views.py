@@ -7,6 +7,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
+from discord import SyncWebhook
 from .forms import ServerForm
 
 import boto3, os
@@ -73,8 +74,10 @@ def servers_page(request):
     print(request.POST['status'])
     if (request.POST['status'] == False or request.POST['status'] == 'False'):
       status = start_stop_ec2_instance(instance_id, 'start')
+      action = 'start'
     else:
       status = start_stop_ec2_instance(instance_id, 'stop')
+      action = 'stop'
       
     instance_details ={
       'status': status,
@@ -98,6 +101,13 @@ def servers_page(request):
         }
       ]
     }
+    
+    if action == 'start':
+      WEBHOOK = os.environ.get('DISCORD_WEBHOOK')
+      hook_id = WEBHOOK.split('/')[5]
+      token = WEBHOOK.split('/')[6]
+      webhook = SyncWebhook.partial(hook_id, token)
+      webhook.send("Starting Terraria Server...")
     
     return render(request, "pages/servers.html", context)
     
