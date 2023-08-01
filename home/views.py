@@ -42,7 +42,7 @@ def is_instance_running(instance_id):
 def start_stop_ec2_instance(instance_id, action):
     try:
       if action == 'start':
-          ec2_client.start_instances(InstanceIds=[instance_id])
+          instance = ec2_client.start_instances(InstanceIds=[instance_id])
           print(f"Successfully started instance {instance_id}")
           return True
       else:
@@ -52,6 +52,16 @@ def start_stop_ec2_instance(instance_id, action):
     except Exception as e:
         print(f"Error starting instance: {e}")
         return False
+      
+      
+def get_instance_ip(instance_id):
+    ec2 = boto3.resource('ec2', aws_access_key_id=aws_access_key, aws_secret_access_key=aws_secret_key, region_name=aws_region)
+
+    instance = ec2.Instance(instance_id)
+    instance_ip = instance.public_ip_address
+
+    return instance_ip
+
 
 def index(request):
   context = {
@@ -64,14 +74,13 @@ def index(request):
 def servers_page(request):
   icon = {
     'running': '🟢',
-    'stopping': '⏳',
+    'stopping': '🟠',
     'stopped': '🔴',
-    'pending': '🟢'
+    'pending': '⏳'
   }
   instance_id = 'i-0429aa1a2d080c4b5'
   
   if (request.method == 'POST'):
-    print(request.POST['status'])
     if (request.POST['status'] == False or request.POST['status'] == 'False'):
       status = start_stop_ec2_instance(instance_id, 'start')
       action = 'start'
@@ -102,6 +111,8 @@ def servers_page(request):
       ]
     }
     
+    print(context)
+    
     if action == 'start':
       WEBHOOK = os.environ.get('DISCORD_WEBHOOK')
       hook_id = WEBHOOK.split('/')[5]
@@ -117,6 +128,8 @@ def servers_page(request):
       'status': status,
       'instanceId': instance_id
     }
+    instance_ip = get_instance_ip(instance_id)
+    print("Instance Public IP:", instance_ip)
     
     form = ServerForm(instance_details)
     
@@ -129,7 +142,8 @@ def servers_page(request):
           'status_name': status_name.capitalize(),
           'status': status,
           'form': form,
-          'icon': icon[status_name]
+          'icon': icon[status_name],
+          'ip': instance_ip
         }
       ]
     }

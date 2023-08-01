@@ -1,56 +1,56 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-
 {% block content %}
 <!-- [ Main Content ] start -->
 <div class="row justify-content-center">
     <div class="col-md-9 text-right">
-            <a href="/" class="btn btn-primary btn-outline-secondary"><i class="feather icon-refresh-ccw f-20"></i>Refresh</a>
+        <a href="/" class="btn btn-primary btn-outline-secondary"><i
+                class="feather icon-refresh-ccw f-20"></i>Refresh</a>
     </div>
 </div>
 <div class="row justify-content-center">
     {% for server in servers %}
     <div class="col-md-4">
         <div class="card ">
-            <form
-                action="{{ request.path }}"
-                onsubmit="openLoader()"
-                method="post"
-                id="writing_form"
-            >
+            <form action="{{ request.path }}" onsubmit="openLoader()" method="post" id="writing_form">
                 {{server.form}}
-                <div class="card-block border-left {%if server.status%}border-success {%else%} border-danger {%endif%}" style="border-width:5px!important">
+                <div class="card-block border-left {%if server.status%}border-success {%else%} border-danger {%endif%}"
+                    style="border-width:5px!important">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <h3 class="mb-3">🗺 {{server.name}}</h3>
                             <h6>
-                                Status: {%if server.status %} ON {{server.icon}} {%else%}{{server.status_name}}
-                                {{server.icon}}{%endif%}
+                                Status: {%if server.status %} {{server.status_name}}{{server.icon}} {%else%}{{server.status_name}}{{server.icon}}{%endif%}
                             </h6>
                             <!-- <p>Hello! Welcome to {{server.name}} server</p> -->
-                            {%if server.status %}
-                            <p>Join now!
-                                <code style="font-size:16px;">52.221.52.40</code>
-                            </p>
-                            <img
-                                src="{% static '/assets/images/terraria_screen.jpg' %}"
-                                alt="Responsive image"
-                                alt="terraria"
-                                width="300px"
-                            >
+                            {%if server.status_name == 'Running' %}
+                            <div class="input-group">
+
+                                <input type="text" class="form-control" disabled value="{{server.ip}}" id="ip-input">
+                                <div class="input-group-append tooltipt">
+                                    <button onclick="get_ip();" type="button" id="copyButton" class="input-group-addon btn btn-outline-primary" title="Click to copy">
+                                        <i class="feather icon-clipboard text-primary" aria-hidden="true" style="margin-right: 0"></i>
+                                        <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <hr style="visibility: hidden" />
+                            <img src="{% static '/assets/images/terraria_screen.jpg' %}" alt="Responsive image"
+                                alt="terraria" width="300px">
                             {%endif%}
 
-                            {%if server.status_name == 'Stopping' %}
+                            {%if server.status_name == 'Stopping' or server.status_name == 'Pending' %}
                             <p>Refresh to refresh status</p>
                             {%endif%}
                         </div>
-                        <div class="col-md-6 text-right">
+                        <div class="col-md-4 text-right">
                             <br>
                             <br>
                             {%if server.status%}
                             <button type="submit" class="btn btn-secondary btn-large btn-square">STOP 🛑</button>
                             {%else%}
-                            <button type="submit" class="btn btn-secondary btn-large btn-square {%if server.status_name == 'Stopping' %} disabled {%endif%} ">
+                            <button type="submit"
+                                class="btn btn-secondary btn-large btn-square {%if server.status_name == 'Stopping' %} disabled {%endif%} ">
                                 START
                                 ▶
                             </button>
@@ -63,5 +63,24 @@
     </div>
     {% endfor %}
 </div>
+{% block scripts %}
+<script>
+    function get_ip() {
+        // Get the text field
+        var copyText = document.getElementById("ip-input");
+        document.getElementById('myTooltip').innerText = 'Copied IP!'
+        console.log('Copied IP to clipboard!', copyText.value);
+      
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+      
+         // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
+      
+        // Alert the copied text
+      } 
+</script>
+{% endblock scripts %}
 <!-- [ Main Content ] end -->
 {% endblock content %}
