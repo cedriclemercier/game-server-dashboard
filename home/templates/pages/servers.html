@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <!-- [ Main Content ] start -->
-<div class="row justify-content-center">
+<div class="row justify-content-center mb-5">
     <div class="col-md-9 text-right">
         <a href="/" class="btn btn-primary btn-outline-secondary"><i
                 class="feather icon-refresh-ccw f-20"></i>Refresh</a>
@@ -10,11 +10,11 @@
 </div>
 <div class="row justify-content-center">
     {% for server in servers %}
-    <div class="col-md-4">
+    <div class="col-md-5">
         <div class="card ">
             <form action="{{ request.path }}" onsubmit="openLoader()" method="post" id="writing_form">
                 {{server.form}}
-                <div class="card-block border-left {%if server.status%}border-success {%else%} border-danger {%endif%}"
+                <div class="card-block border-left {%if server.status_name == 'Running' %} border-success {% elif server.status_name == 'Pending' %} border-warning {% else %} border-danger {%endif%}"
                     style="border-width:5px!important">
                     <div class="row">
                         <div class="col-md-8">
@@ -35,8 +35,10 @@
                                 </div>
                             </div>
                             <hr style="visibility: hidden" />
+                            {%if server.name == 'The Lab'%}
                             <img src="{% static '/assets/images/terraria_screen.jpg' %}" alt="Responsive image"
                                 alt="terraria" width="300px">
+                            {%endif%}
                             {%endif%}
 
                             {%if server.status_name == 'Stopping' or server.status_name == 'Pending' %}
