@@ -108,6 +108,7 @@ def servers_page(request):
         }
     ]
 
+    server_name = None
     if (request.method == 'POST'):
         print(request.POST)
         if (request.POST['status'] == False or request.POST['status'] == 'False'):
@@ -120,6 +121,8 @@ def servers_page(request):
             action = 'stop'
 
         for server_info in servers_list:
+            if request.POST['instanceId'] == server_info['instance_id']
+            server_name = server_info['name']
             status, status_name = is_instance_running(
                 server_info['instance_id'])
             instance_details = {
@@ -149,7 +152,7 @@ def servers_page(request):
             hook_id = WEBHOOK.split('/')[5]
             token = WEBHOOK.split('/')[6]
             webhook = SyncWebhook.partial(hook_id, token)
-            webhook.send("Starting Terraria Server...")
+            webhook.send(f"Starting {server_name} server...")
 
         return render(request, "pages/servers.html", context)
 
