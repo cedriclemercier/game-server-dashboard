@@ -121,8 +121,8 @@ def servers_page(request):
             action = 'stop'
 
         for server_info in servers_list:
-            if request.POST['instanceId'] == server_info['instance_id']
-            server_name = server_info['name']
+            if request.POST['instanceId'] == server_info['instance_id']:
+                server_name = server_info['name']
             status, status_name = is_instance_running(
                 server_info['instance_id'])
             instance_details = {
