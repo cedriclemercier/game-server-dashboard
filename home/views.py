@@ -7,7 +7,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
-from discord import SyncWebhook
+from discord import SyncWebhook, Embed
 from .forms import ServerForm
 
 import boto3
@@ -109,6 +109,7 @@ def servers_page(request):
     ]
 
     server_name = None
+    server_ip = None
     if (request.method == 'POST'):
         print(request.POST)
         if (request.POST['status'] == False or request.POST['status'] == 'False'):
@@ -121,8 +122,6 @@ def servers_page(request):
             action = 'stop'
 
         for server_info in servers_list:
-            if request.POST['instanceId'] == server_info['instance_id']:
-                server_name = server_info['name']
             status, status_name = is_instance_running(
                 server_info['instance_id'])
             instance_details = {
@@ -136,6 +135,9 @@ def servers_page(request):
             server_info['form'] = form
             server_info['icon'] = icon[status_name]
             server_info['ip'] = get_instance_ip(server_info['instance_id'])
+            
+            if request.POST['instanceId'] == server_info['instance_id']:
+                server_name = server_info['name']
 
         instance_details = {
             'status': status,
@@ -152,7 +154,9 @@ def servers_page(request):
             hook_id = WEBHOOK.split('/')[5]
             token = WEBHOOK.split('/')[6]
             webhook = SyncWebhook.partial(hook_id, token)
-            webhook.send(f"Starting {server_name} server...")
+            embed = Embed(title="Notification", description=f"Starting {server_name} server...", color=0x1DE7B9)
+            embed.add_field(name="Website", value="https://terraria-lab.vercel.app/", inline=False)
+            webhook.send(embed=embed)
 
         return render(request, "pages/servers.html", context)
 
