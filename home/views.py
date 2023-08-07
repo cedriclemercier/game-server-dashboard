@@ -54,7 +54,7 @@ def start_stop_ec2_instance(instance_id, action):
             while instance_state != 'running':
                 response = ec2_client.describe_instances(InstanceIds=[instance_id])
                 instance_state = response['Reservations'][0]['Instances'][0]['State']['Name']
-                time.sleep(2)
+                time.sleep(1)
             print(f"Successfully started instance {instance_id}")
             return True
         else:

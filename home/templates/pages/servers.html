@@ -12,7 +12,7 @@
     {% for server in servers %}
     <div class="col-md-5">
         <div class="card ">
-            <form action="{{ request.path }}" onsubmit="openLoader()" method="post" id="writing_form">
+            <form action="{{ request.path }}" onsubmit="openLoader()" method="post" id="writing_form_{{server.instance_id}}">
                 {{server.form}}
                 <div class="card-block border-left {%if server.status_name == 'Running' %} border-success {% elif server.status_name == 'Pending' %} border-warning {% else %} border-danger {%endif%}"
                     style="border-width:5px!important">
@@ -51,7 +51,7 @@
                             {%if server.status%}
                             <button type="submit" class="btn btn-secondary btn-large btn-square"">STOP 🛑</button>
                             {%else%}
-                            <button type="submit" id="startButton" onclick="startLoading()" 
+                            <button type="submit" id="startButton_{{server.instance_id}}" onclick="startLoading('{{server.instance_id}}')"
                                 class="btn btn-secondary btn-large btn-square {%if server.status_name == 'Stopping' %} disabled {%endif%} ">
                                 START
                                 ▶
@@ -83,12 +83,12 @@
         // Alert the copied text
       } 
 
-      function startLoading() {
-        var startButton = document.getElementById("startButton");
+      function startLoading(instanceId) {
+        var startButton = document.getElementById(`startButton_${instanceId}`);
         startButton.innerText = "LOADING ⏳";
         startButton.disabled = true;
-
-        var form = document.getElementById("writing_form");
+        console.log(`writing_form_${instanceId}`);
+        var form = document.getElementById(`writing_form_${instanceId}`);
         form.submit();
     }
 </script>
