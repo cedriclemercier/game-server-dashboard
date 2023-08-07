@@ -11,7 +11,10 @@ from discord import SyncWebhook, Embed
 from .forms import ServerForm
 
 import boto3
-import os
+import os, time
+
+# import asyncio
+
 
 aws_access_key = os.environ.get('AWS_ACCESSKEY')
 aws_secret_key = os.environ.get('AWS_SECRETKEY')
@@ -43,9 +46,15 @@ def is_instance_running(instance_id):
 
 
 def start_stop_ec2_instance(instance_id, action):
+    instance_state = 'pending'
+    
     try:
         if action == 'start':
             instance = ec2_client.start_instances(InstanceIds=[instance_id])
+            while instance_state != 'running':
+                response = ec2_client.describe_instances(InstanceIds=[instance_id])
+                instance_state = response['Reservations'][0]['Instances'][0]['State']['Name']
+                time.sleep(2)
             print(f"Successfully started instance {instance_id}")
             return True
         else:
@@ -138,6 +147,7 @@ def servers_page(request):
             
             if request.POST['instanceId'] == server_info['instance_id']:
                 server_name = server_info['name']
+                server_ip = server_info['ip']
 
         instance_details = {
             'status': status,
@@ -154,8 +164,9 @@ def servers_page(request):
             hook_id = WEBHOOK.split('/')[5]
             token = WEBHOOK.split('/')[6]
             webhook = SyncWebhook.partial(hook_id, token)
-            embed = Embed(title="Notification", description=f"Starting {server_name} server...", color=0x1DE7B9)
-            embed.add_field(name="Website", value="https://terraria-lab.vercel.app/", inline=False)
+            embed = Embed(title="G'day mate!", description=f"I just started {server_name} server, have fun!", color=0x1DE7B9)
+            embed.add_field(name="Website link", value="[Link](https://terraria-lab.vercel.app/)", inline=False)
+            embed.add_field(name="IP", value=server_ip, inline=False)
             webhook.send(embed=embed)
 
         return render(request, "pages/servers.html", context)
