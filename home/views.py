@@ -167,7 +167,7 @@ def servers_page(request):
             embed = Embed(title="G'day mate!", description=f"I just started {server_name} server, have fun!", color=0x1DE7B9)
             embed.add_field(name="Website link", value="[Link](https://terraria-lab.vercel.app/)", inline=False)
             embed.add_field(name="IP", value=server_ip, inline=False)
-            webhook.send(embed=embed, content="Hey @want-to-play !")
+            webhook.send(embed=embed, content="Hey <@&1138040927148068914> !")
 
         return render(request, "pages/servers.html", context)
 
