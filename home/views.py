@@ -125,6 +125,7 @@ def servers_page(request):
             status = start_stop_ec2_instance(
                 request.POST['instanceId'], 'start')
             action = 'start'
+            webhook.send("Starting server...")
         else:
             status = start_stop_ec2_instance(
                 request.POST['instanceId'], 'stop')
