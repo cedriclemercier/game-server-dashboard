@@ -125,6 +125,12 @@ def servers_page(request):
             status = start_stop_ec2_instance(
                 request.POST['instanceId'], 'start')
             action = 'start'
+            
+            
+            WEBHOOK = os.environ.get('DISCORD_WEBHOOK')
+            hook_id = WEBHOOK.split('/')[5]
+            token = WEBHOOK.split('/')[6]
+            webhook = SyncWebhook.partial(hook_id, token)
             webhook.send("Starting server...")
         else:
             status = start_stop_ec2_instance(
@@ -161,10 +167,6 @@ def servers_page(request):
         }
         
         if action == 'start':
-            WEBHOOK = os.environ.get('DISCORD_WEBHOOK')
-            hook_id = WEBHOOK.split('/')[5]
-            token = WEBHOOK.split('/')[6]
-            webhook = SyncWebhook.partial(hook_id, token)
             embed = Embed(title="G'day mate!", description=f"I just started {server_name} server, have fun!", color=0x1DE7B9)
             embed.add_field(name="Website link", value="[Link](https://terraria-lab.vercel.app/)", inline=False)
             embed.add_field(name="IP", value=server_ip, inline=False)
