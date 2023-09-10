@@ -131,7 +131,7 @@ def servers_page(request):
             hook_id = WEBHOOK.split('/')[5]
             token = WEBHOOK.split('/')[6]
             webhook = SyncWebhook.partial(hook_id, token)
-            webhook.send("Starting server...")
+            # webhook.send("Starting server...")
         else:
             status = start_stop_ec2_instance(
                 request.POST['instanceId'], 'stop')
